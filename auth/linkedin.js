@@ -8,7 +8,7 @@ passport.use(
     {
     clientID: process.env.LINKEDIN_KEY,
     clientSecret: process.env.LINKEDIN_SECRET,
-    callbackURL: "http://localhost:5000/auth/linkedin/callback",
+    callbackURL: "https://linkedin-oauth-gm9o.onrender.com/auth/linkedin/callback",
     scope: ['openid', 'profile', 'email'],
     state: true,
     passReqToCallback: true,
