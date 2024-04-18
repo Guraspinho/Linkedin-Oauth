@@ -3,29 +3,38 @@ const passport = require('passport');
 const crypto = require('crypto');
 const router = express.Router();
 
-// Function to generate a unique state parameter
-function generateStateParameter() {
-  return crypto.randomBytes(15).toString('hex');
+// This function generates a random string to use as the state parameter
+function generateStateParameter()
+{
+	return crypto.randomBytes(20).toString('hex');
 }
 
-router.get('/linkedin', function(req, res, next) {
-  passport.authenticate('linkedin', {
-    state: generateStateParameter(),
-  })(req, res, next);
-});
+router.get('/linkedin', function(req, res, next)
+	{
+		const stateParameter = generateStateParameter();
+		console.log(stateParameter);
+		req.session.state = stateParameter;
+		passport.authenticate('linkedin', { state: stateParameter})(req, res, next);
+	}
+);
 
 // This route is used to receive the callback after authentication has taken place
-router.get('/linkedin/callback', function(req, res, next) {
+router.get('/linkedin/callback', function(req, res, next)
+{
   passport.authenticate('linkedin', function(err, user, info) {
-    if (err) { 
+    if (err)
+	{ 
       console.error('Error:', err);
       return next(err); 
     }
-    if (!user) { 
+    if (!user)
+	{ 
+		console.log(req.query.state);
       console.error('Authentication failed:', info);
-      return res.redirect('/login'); 
+      return res.redirect('/'); 
     }
-    req.logIn(user, function(err) {
+    req.logIn(user, function(err)
+	{
       if (err) { 
         console.error('Login failed:', err);
         return next(err); 

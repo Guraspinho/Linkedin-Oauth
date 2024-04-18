@@ -6,14 +6,15 @@ const strat  = require('./auth/linkedin');
 const session = require('express-session');
 const passport = require('passport');
 
-
 app.use(session({
     secret: 'your-secret-value',
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: false    
   }));
 
-app.use(passport.initialize());
+
+
+  app.use(passport.initialize());
 app.use(passport.session());
 
 app.get('/', (req, res) => {
