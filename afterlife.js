@@ -5,12 +5,22 @@ const routes  = require('./routes/linkedin');
 const strat  = require('./auth/linkedin');
 const session = require('express-session');
 const passport = require('passport');
+const MongoDBStore = require('connect-mongodb-session')(session);
+
+const store = new MongoDBStore(
+    {
+        uri: process.env.MONGO_URI,
+        collection: 'mySessions'
+    }
+);  
 
 app.use(session({
     secret: 'your-secret-value',
     resave: false,
-    saveUninitialized: false    
-  }));
+    saveUninitialized: false,
+    store: store    
+}));    
+
 
 
 
