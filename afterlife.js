@@ -1,11 +1,11 @@
 const express = require('express');
 const app = express();
 require('dotenv').config();
+const session = require('express-session'); // Moved up
+const MongoDBStore = require('connect-mongodb-session')(session); // Now session is defined
 const routes  = require('./routes/linkedin');
 const strat  = require('./auth/linkedin');
-const session = require('express-session');
 const passport = require('passport');
-const MongoDBStore = require('connect-mongodb-session')(session);
 
 const store = new MongoDBStore(
     {
@@ -13,6 +13,10 @@ const store = new MongoDBStore(
         collection: 'mySessions'
     }
 );  
+
+store.on('error', function(error) {
+    console.log(error);
+  });
 
 app.use(session({
     secret: 'your-secret-value',
@@ -24,7 +28,7 @@ app.use(session({
 
 
 
-  app.use(passport.initialize());
+app.use(passport.initialize());
 app.use(passport.session());
 
 app.get('/', (req, res) => {
