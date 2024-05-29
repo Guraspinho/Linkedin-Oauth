@@ -6,7 +6,7 @@ To run this application:
 ```
 npm install
 ```
-- locate the "node afterlife.js" script command in package.json and change it to "nodemon afterlife.js"
+- locate the "node afterlife.js" script command in package.json file and change it to "nodemon afterlife.js"
 - run the following command to start the application
 ```
 npm start
